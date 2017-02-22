@@ -1,9 +1,11 @@
 package iut.paci.noelcommunity;
 
+import java.io.Serializable;
+
 /**
  * Created by haddad1 on 10/02/2017.
  */
-public class District {
+public class District implements Serializable {
 
     private final int id;
     private final String nom;
@@ -12,7 +14,7 @@ public class District {
     private final double latitude;
     private final int idImageRessource;
 
-    public District(int id, String nom, String description, double longitude, double latitude, int idImageRessource) {
+    public District(int id, String nom, String description, double latitude, double longitude, int idImageRessource) {
         this.id = id;
         this.nom = nom;
         this.description = description;

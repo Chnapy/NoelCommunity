@@ -79,8 +79,9 @@ public class MyAdapter extends ArrayAdapter<District> {
                         Intent intent = new Intent(getContext(), MapActivity.class);
 
                         Bundle extra = new Bundle();
-                        extra.putDouble("latitude", d.getLatitude());
-                        extra.putDouble("longitude", d.getLongitude());
+                extra.putSerializable("district", d);
+//                        extra.putDouble("latitude", d.getLatitude());
+//                        extra.putDouble("longitude", d.getLongitude());
 
                         intent.putExtras(extra);
 

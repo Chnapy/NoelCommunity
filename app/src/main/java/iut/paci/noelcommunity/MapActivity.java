@@ -1,30 +1,47 @@
 package iut.paci.noelcommunity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import org.mapsforge.core.graphics.Bitmap;
+import org.mapsforge.core.graphics.Color;
+import org.mapsforge.core.graphics.Paint;
+import org.mapsforge.core.graphics.Style;
 import org.mapsforge.core.model.LatLong;
+import org.mapsforge.core.model.Point;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.util.AndroidUtil;
 import org.mapsforge.map.android.view.MapView;
 import org.mapsforge.map.datastore.MapDataStore;
 import org.mapsforge.map.layer.cache.TileCache;
+import org.mapsforge.map.layer.overlay.Marker;
+import org.mapsforge.map.layer.overlay.Polyline;
 import org.mapsforge.map.layer.renderer.TileRendererLayer;
 import org.mapsforge.map.reader.MapFile;
 import org.mapsforge.map.rendertheme.InternalRenderTheme;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapActivity extends AppCompatActivity {
 
     private MapView mapView;
     private TileCache tileCache;
     private TileRendererLayer tileRendererLayer;
-    private double latitude, longitude;
+    private District district;
+    private MapDialog dialog;
+    private List<LatLong> path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +59,7 @@ public class MapActivity extends AppCompatActivity {
         mapView.getMapScaleBar().setVisible(true);
         mapView.setBuiltInZoomControls(true);
         mapView.setZoomLevelMin((byte) 10);
-        mapView.setZoomLevelMax((byte) 10);
+        mapView.setZoomLevelMax((byte) 20);
 
         this.tileCache = AndroidUtil.createTileCache(this, "mapcache",
                 mapView.getModel().displayModel.getTileSize(), 1f,
@@ -50,30 +67,90 @@ public class MapActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
-        this.latitude = extra.getDouble("latitude");
-        this.longitude = extra.getDouble("longitude");
+        this.district = (District) extra.getSerializable("district");
 
-        System.out.println(latitude + " !======================================================================================================================== " + longitude);
+        this.dialog = new MapDialog(this);
+
+        this.path = new ArrayList();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        final int imageResourceId = R.drawable.ic_place_black_24dp;
+        final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
         File file = new File(Environment.getExternalStorageDirectory(), "/maps/paris.map");
 
         MapDataStore mapDataStore = new MapFile(file);
         tileRendererLayer = new TileRendererLayer(tileCache, mapDataStore,
                 mapView.getModel().mapViewPosition,
-                AndroidGraphicFactory.INSTANCE);
+                AndroidGraphicFactory.INSTANCE) {
+            @Override
+            public boolean onLongPress(LatLong tapLatLong, Point layerXY, Point tapXY) {
+                drawMarker(imageResourceId, tapLatLong);
+                vibrator.vibrate(10000);
+
+                final LatLong tll = tapLatLong;
+
+                dialog.start(district.getNom(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        path.add(tll);
+                        drawPath(path);
+                    }
+                });
+
+                return true;
+            }
+        };
         tileRendererLayer.setXmlRenderTheme(InternalRenderTheme.OSMARENDER);
         mapView.getLayerManager().getLayers().add(tileRendererLayer);
 
-        System.out.println(latitude + " ========================================================================================================================= " + longitude);
+        LatLong pos = new LatLong(district.getLatitude(), district.getLongitude());
 
-        mapView.setCenter(new LatLong(this.latitude, this.longitude));
+        mapView.setCenter(pos);
         mapView.setZoomLevel((byte) 19);
 
+        this.drawMarker(imageResourceId, pos);
+
+        this.path.clear();
+        this.path.add(pos);
+    }
+
+    public void drawMarker(int ressourceId, LatLong geoPoint) {
+        Drawable drawable = getResources().getDrawable(ressourceId);
+        Bitmap bitmap = AndroidGraphicFactory.convertToBitmap(drawable);
+        bitmap.scaleTo(130, 130);
+        Marker marker = new Marker(geoPoint, bitmap, 0, -bitmap.getHeight() / 2) {
+            @Override
+            public boolean onTap(LatLong tapLatLong, Point layerXY, Point tapXY) {
+                if(contains(layerXY, tapXY)) {
+                    Toast.makeText(MapActivity.this, "clicked marker", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        };
+        mapView.getLayerManager().getLayers().add(marker);
+    }
+
+    public void drawPath(List<LatLong> path) {
+        Paint paint = AndroidGraphicFactory.INSTANCE.createPaint();
+        paint.setColor(Color.RED);
+        paint.setStrokeWidth(15);
+        paint.setStyle(Style.STROKE);
+
+        Polyline polyline = new Polyline(paint, AndroidGraphicFactory.INSTANCE);
+
+        List<LatLong> coordinateList = polyline.getLatLongs();
+
+        for(LatLong geoPoint : path) {
+            coordinateList.add(geoPoint);
+        }
+        mapView.getLayerManager().getLayers().add(polyline);
     }
 
     @Override
