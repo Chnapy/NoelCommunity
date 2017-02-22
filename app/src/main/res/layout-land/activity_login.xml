@@ -54,8 +54,7 @@
         android:layout_alignStart="@+id/ipMdp"
         android:layout_alignRight="@+id/ipMdp"
         android:layout_alignEnd="@+id/ipMdp"
-        android:typeface="sans"
-        android:forceHasOverlappingRendering="false" />
+        android:typeface="sans" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -11,11 +11,26 @@
         android:id="@+id/d_content"
         android:padding="5dp" />
 
-    <Button
-        android:text="OK"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/d_but"
-        android:background="?attr/colorPrimary"
-        android:textColor="#fff" />
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Map"
+            android:id="@+id/map_but"
+            android:background="#DDD"
+            android:textColor="#555" />
+
+        <Button
+            android:text="OK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/d_but"
+            android:background="?attr/colorPrimary"
+            android:textColor="#fff" />
+    </LinearLayout>
 </LinearLayout>

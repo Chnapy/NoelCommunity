@@ -2,7 +2,9 @@ package iut.paci.noelcommunity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,23 +55,40 @@ public class MyAdapter extends ArrayAdapter<District> {
             @Override
             public void onClick(View v) {
 
-                final Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.dialog_district);
-                dialog.setTitle(d.getNom());
+//                final Dialog dialog = new Dialog(getContext());
+//                dialog.setContentView(R.layout.dialog_district);
+//                dialog.setTitle(d.getNom());
+//
+//                Button d_but = (Button) dialog.findViewById(R.id.d_but);
+//                Button map_but = (Button) dialog.findViewById(R.id.map_but);
+//
+//                TextView d_content = (TextView) dialog.findViewById(R.id.d_content);
+//                d_content.setText(d.toDialog());
+//
+//                d_but.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        dialog.dismiss();
+//                    }
+//                });
+//
+//                map_but.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
 
-                Button d_but = (Button) dialog.findViewById(R.id.d_but);
+                        Intent intent = new Intent(getContext(), MapActivity.class);
 
-                TextView d_content = (TextView) dialog.findViewById(R.id.d_content);
-                d_content.setText(d.toDialog());
+                        Bundle extra = new Bundle();
+                        extra.putDouble("latitude", d.getLatitude());
+                        extra.putDouble("longitude", d.getLongitude());
 
-                d_but.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+                        intent.putExtras(extra);
 
-                dialog.show();
+                        getContext().startActivity(intent);
+//                    }
+//                });
+//
+//                dialog.show();
             }
         });
 

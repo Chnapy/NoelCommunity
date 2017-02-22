@@ -8,11 +8,11 @@ public class District {
     private final int id;
     private final String nom;
     private final String description;
-    private final int longitude;
-    private final int latitude;
+    private final double longitude;
+    private final double latitude;
     private final int idImageRessource;
 
-    public District(int id, String nom, String description, int longitude, int latitude, int idImageRessource) {
+    public District(int id, String nom, String description, double longitude, double latitude, int idImageRessource) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -33,11 +33,11 @@ public class District {
         return description;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
