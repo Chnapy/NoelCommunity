@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ import java.util.List;
 
 public class MapActivity extends AppCompatActivity {
 
+    private static final String TAG = "mapActivity";
     private MapView mapView;
     private TileCache tileCache;
     private TileRendererLayer tileRendererLayer;
@@ -72,6 +75,7 @@ public class MapActivity extends AppCompatActivity {
         this.dialog = new MapDialog(this);
 
         this.path = new ArrayList();
+
     }
 
     @Override
@@ -118,6 +122,8 @@ public class MapActivity extends AppCompatActivity {
 
         this.path.clear();
         this.path.add(pos);
+
+        this.appelHttp(this.district.getId());
     }
 
     public void drawMarker(int ressourceId, LatLong geoPoint) {
@@ -151,6 +157,22 @@ public class MapActivity extends AppCompatActivity {
             coordinateList.add(geoPoint);
         }
         mapView.getLayerManager().getLayers().add(polyline);
+    }
+
+    private void appelHttp(int id) {
+
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("http")
+                .authority("iut.96.lt")
+                .appendPath("community")
+                .appendPath("getDistrict.php")
+                .appendQueryParameter("id", id + "");
+        String urlString = builder.build().toString();
+        urlString = "http://iut.96.lt/community/getDistrict.php?id=1";
+        urlString = "http://paci.misc-lab.org/getDistrict.php?id=1";
+
+        Log.d(TAG, "appelHttp: " + urlString);
+        new DistrictTask(MapActivity.this, urlString).execute(urlString);
     }
 
     @Override

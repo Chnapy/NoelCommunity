@@ -1,6 +1,12 @@
 package iut.paci.noelcommunity;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by haddad1 on 10/02/2017.
@@ -8,11 +14,20 @@ import java.io.Serializable;
 public class District implements Serializable {
 
     private final int id;
+
+    @SerializedName("name")
     private final String nom;
+
     private final String description;
     private final double longitude;
     private final double latitude;
     private final int idImageRessource;
+    private final List<Deposite> deposites;
+    private final List<Store> stores;
+
+    public District(int id, String nom, String description, double latitude, double longitude) {
+        this(id, nom, description, latitude, longitude, R.drawable.img_district1);
+    }
 
     public District(int id, String nom, String description, double latitude, double longitude, int idImageRessource) {
         this.id = id;
@@ -21,6 +36,8 @@ public class District implements Serializable {
         this.longitude = longitude;
         this.latitude = latitude;
         this.idImageRessource = idImageRessource;
+        this.deposites = new ArrayList();
+        this.stores = new ArrayList();
     }
 
     public int getId() {
@@ -47,6 +64,14 @@ public class District implements Serializable {
         return idImageRessource;
     }
 
+    public List<Deposite> getDeposites() {
+        return deposites;
+    }
+
+    public List<Store> getStores() {
+        return stores;
+    }
+
     public String toDialog() {
         return description
                 + "\n\n"
@@ -64,4 +89,11 @@ public class District implements Serializable {
                 ", idImageRessource=" + idImageRessource +
                 '}';
     }
+
+    public static District fromJson(String json){
+        Gson gson = new GsonBuilder().setDateFormat("HH:mm:ss").create();
+        District district = gson.fromJson(json, District.class);
+        return district;
+    }
+
 }
