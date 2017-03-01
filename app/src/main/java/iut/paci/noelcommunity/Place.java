@@ -1,5 +1,7 @@
 package iut.paci.noelcommunity;
 
+import org.mapsforge.core.model.LatLong;
+
 import java.util.Date;
 
 /**
@@ -11,16 +13,14 @@ public abstract class Place {
     private final String name;
     private final double longitude, latitude;
     private final Date openingTime, closingTime;
-    private final int idRessource;
 
-    public Place(int id, String name, double longitude, double latitude, Date openingTime, Date closingTime, int idRessource) {
+    public Place(int id, String name, double longitude, double latitude, Date openingTime, Date closingTime) {
         this.id = id;
         this.name = name;
         this.longitude = longitude;
         this.latitude = latitude;
         this.openingTime = openingTime;
         this.closingTime = closingTime;
-        this.idRessource = idRessource;
     }
 
     public int getId() {
@@ -47,7 +47,17 @@ public abstract class Place {
         return closingTime;
     }
 
-    public int getIdRessource() {
-        return idRessource;
+    public abstract void drawMarker(MapActivity activity, LatLong geoPoint);
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", openingTime=" + openingTime +
+                ", closingTime=" + closingTime +
+                '}';
     }
 }

@@ -127,6 +127,7 @@ public class MapActivity extends AppCompatActivity {
     }
 
     public void drawMarker(int ressourceId, LatLong geoPoint) {
+        System.out.println(ressourceId);
         Drawable drawable = getResources().getDrawable(ressourceId);
         Bitmap bitmap = AndroidGraphicFactory.convertToBitmap(drawable);
         bitmap.scaleTo(130, 130);

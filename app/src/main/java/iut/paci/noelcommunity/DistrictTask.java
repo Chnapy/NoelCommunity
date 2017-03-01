@@ -81,7 +81,7 @@ public class DistrictTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        /*
+
         pDialog.dismiss();
         Log.d("MapActivity", result);
 // Traitement du résultat
@@ -89,14 +89,15 @@ public class DistrictTask extends AsyncTask<String, Void, String> {
         try {
             District d = District.fromJson(this.get());
             for(Store s : d.getStores()) {
-                this.activity.drawMarker(s.getIdRessource(), new LatLong(s.getLatitude(), s.getLongitude()));
+                System.out.println(s);
+                s.drawMarker(activity, new LatLong(s.getLatitude(), s.getLongitude()));
             }
             for(Deposite de : d.getDeposites()) {
-                this.activity.drawMarker(de.getIdRessource(), new LatLong(de.getLatitude(), de.getLongitude()));
+                de.drawMarker(activity, new LatLong(de.getLatitude(), de.getLongitude()));
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        */
+
     }
 }
