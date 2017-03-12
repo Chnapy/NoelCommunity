@@ -17,7 +17,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
 
 /**
  * Created by haddad1 on 27/02/2017.
@@ -89,11 +88,10 @@ public class DistrictTask extends AsyncTask<String, Void, String> {
         try {
             District d = District.fromJson(this.get());
             for(Store s : d.getStores()) {
-                System.out.println(s);
-                s.drawMarker(activity, new LatLong(s.getLatitude(), s.getLongitude()));
+                activity.drawMarker(R.drawable.ic_place_store, s);
             }
             for(Deposite de : d.getDeposites()) {
-                de.drawMarker(activity, new LatLong(de.getLatitude(), de.getLongitude()));
+                activity.drawMarker(R.drawable.ic_place_deposite, de);
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();

@@ -35,6 +35,8 @@ public class DistrictActivity extends AppCompatActivity {
 
         EditText search = (EditText) findViewById(R.id.search);
         search.addTextChangedListener(new MyTextWatcher());
+
+        System.out.println("DISTRICT ACTIVITY");
     }
 
     public void search(String str_searched) {

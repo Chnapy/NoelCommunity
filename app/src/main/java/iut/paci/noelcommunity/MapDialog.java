@@ -14,7 +14,7 @@ public class MapDialog extends Dialog {
 
     public MapDialog(Context context) {
         super(context);
-        setContentView(R.layout.dialog_map);
+        setContentView(R.layout.dialog_map_store);
 
         this.mapdial_but = (Button) findViewById(R.id.mapdial_but);
     }

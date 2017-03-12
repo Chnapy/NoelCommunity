@@ -1,6 +1,11 @@
 package iut.paci.noelcommunity;
 
+import android.app.Dialog;
+import android.content.Context;
+
+import org.mapsforge.core.graphics.Bitmap;
 import org.mapsforge.core.model.LatLong;
+import org.mapsforge.map.layer.overlay.Marker;
 
 import java.util.Date;
 
@@ -46,6 +51,10 @@ public abstract class Place {
     public Date getClosingTime() {
         return closingTime;
     }
+
+    public abstract Marker getMarker(Context context, Bitmap bitmap);
+
+    public abstract Dialog getDialog(Context context);
 
     public abstract void drawMarker(MapActivity activity, LatLong geoPoint);
 

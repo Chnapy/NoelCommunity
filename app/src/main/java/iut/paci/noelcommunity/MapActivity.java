@@ -93,8 +93,7 @@ public class MapActivity extends AppCompatActivity {
                 AndroidGraphicFactory.INSTANCE) {
             @Override
             public boolean onLongPress(LatLong tapLatLong, Point layerXY, Point tapXY) {
-                drawMarker(imageResourceId, tapLatLong);
-                vibrator.vibrate(10000);
+                vibrator.vibrate(500);
 
                 final LatLong tll = tapLatLong;
 
@@ -103,6 +102,7 @@ public class MapActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         dialog.dismiss();
                         path.add(tll);
+                        drawMarker(imageResourceId, tll);
                         drawPath(path);
                     }
                 });
@@ -141,6 +141,15 @@ public class MapActivity extends AppCompatActivity {
                 return false;
             }
         };
+        mapView.getLayerManager().getLayers().add(marker);
+    }
+
+    public void drawMarker(int ressourceId, Place place) {
+        System.out.println(ressourceId);
+        Drawable drawable = getResources().getDrawable(ressourceId);
+        Bitmap bitmap = AndroidGraphicFactory.convertToBitmap(drawable);
+        bitmap.scaleTo(130, 130);
+        Marker marker = place.getMarker(this, bitmap);
         mapView.getLayerManager().getLayers().add(marker);
     }
 
