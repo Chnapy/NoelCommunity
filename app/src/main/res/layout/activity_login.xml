@@ -14,8 +14,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
-        android:src="@android:drawable/ic_secure"
+        android:src="@drawable/cadenas"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Mot de passe"
+        android:id="@+id/tvMdp"
+        android:layout_above="@+id/ipMdp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Pseudonyme"
+        android:id="@+id/tvPseudo"
+        android:layout_above="@+id/ipPseudo"
+        android:layout_alignRight="@+id/tvMdp"
+        android:layout_alignEnd="@+id/tvMdp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/ipMdp"
+        android:layout_marginBottom="24dp"
+        android:layout_above="@+id/butConnexion"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connexion"
+        android:id="@+id/butConnexion"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
     <EditText
@@ -26,46 +64,8 @@
         android:id="@+id/ipPseudo"
         android:selectAllOnFocus="true"
         android:layout_above="@+id/tvMdp"
+        android:layout_marginBottom="24dp"
         android:layout_alignLeft="@+id/ipMdp"
-        android:layout_alignStart="@+id/ipMdp"
-        android:layout_marginBottom="32dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/ipMdp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Connexion"
-        android:id="@+id/butConnexion"
-        android:layout_marginTop="64dp"
-        android:layout_below="@+id/ipMdp"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Pseudonyme"
-        android:id="@+id/tvPseudo"
-        android:layout_above="@+id/ipPseudo"
-        android:layout_alignLeft="@+id/butConnexion"
-        android:layout_alignStart="@+id/butConnexion" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Mot de passe"
-        android:id="@+id/tvMdp"
-        android:layout_above="@+id/ipMdp"
-        android:layout_alignLeft="@+id/tvPseudo"
-        android:layout_alignStart="@+id/tvPseudo" />
+        android:layout_alignStart="@+id/ipMdp" />
 
 </RelativeLayout>

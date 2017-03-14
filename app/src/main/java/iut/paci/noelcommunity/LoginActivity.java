@@ -21,8 +21,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         //To delete
-        Intent intent = new Intent(LoginActivity.this, DistrictActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(LoginActivity.this, DistrictActivity.class);
+        //startActivity(intent);
 
         Button submit = (Button) findViewById(R.id.butConnexion);
         submit.setOnClickListener(new View.OnClickListener() {
