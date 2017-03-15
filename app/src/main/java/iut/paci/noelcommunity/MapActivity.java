@@ -44,7 +44,7 @@ public class MapActivity extends AppCompatActivity {
     private TileRendererLayer tileRendererLayer;
     private District district;
     private MapDialog dialog;
-    private List<LatLong> path;
+    public List<LatLong> path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,8 @@ public class MapActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        Deposite.ma = this;
+        Store.ma = this;
         final int imageResourceId = R.drawable.ic_place_black_24dp;
         final Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 

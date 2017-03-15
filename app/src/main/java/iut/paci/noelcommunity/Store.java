@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.mapsforge.core.graphics.Bitmap;
@@ -21,6 +23,8 @@ import java.util.Date;
  * Created by haddad1 on 27/02/2017.
  */
 public class Store extends Place {
+
+    public static MapActivity ma;
 
     private int treeCount;
 
@@ -84,8 +88,11 @@ public class Store extends Place {
 
     public static class StoreDialog extends Dialog {
 
+        private Store store;
+
         public StoreDialog(Context context, Store store) {
             super(context);
+            this.store = store;
             setContentView(R.layout.dialog_map_store);
             setContent(store.getName(), store.getTreeCount(), store.getOpeningTime(), store.getClosingTime());
         }
@@ -120,6 +127,19 @@ public class Store extends Place {
             tv_horaire.setText(dateFormat.format(open) + " - " + dateFormat.format(close));
             boolean ouvert = ouv.compareTo(now) <= 0 && clo.compareTo(now) > 0;
             tv_horaire.setTextColor(getContext().getResources().getColor(ouvert ? R.color.valid : R.color.invalid));
+
+            Button b = (Button) findViewById(R.id.mapdial_but);
+
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                    MapActivity ma = Store.ma;
+                    LatLong ll = new LatLong(store.getLatitude(), store.getLongitude());
+                    ma.path.add(ll);
+                    ma.drawPath(ma.path);
+                }
+            });
         }
     }
 }

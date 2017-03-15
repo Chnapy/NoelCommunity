@@ -2,6 +2,8 @@ package iut.paci.noelcommunity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.mapsforge.core.graphics.Bitmap;
@@ -18,6 +20,8 @@ import java.util.Date;
  * Created by haddad1 on 27/02/2017.
  */
 public class Deposite extends Place {
+
+    public static MapActivity ma;
 
     private final int emptyCount;
 
@@ -72,8 +76,11 @@ public class Deposite extends Place {
 
     public static class DepositeDialog extends Dialog {
 
+        Deposite deposite;
+
         public DepositeDialog(Context context, Deposite deposite) {
             super(context);
+            this.deposite = deposite;
             setContentView(R.layout.dialog_map_deposite);
             setContent(deposite.getName(), deposite.getEmptyCount(), deposite.getOpeningTime(), deposite.getClosingTime());
         }
@@ -108,6 +115,19 @@ public class Deposite extends Place {
             tv_horaire.setText(dateFormat.format(open) + " - " + dateFormat.format(close));
             boolean ouvert = ouv.compareTo(now) <= 0 && clo.compareTo(now) > 0;
             tv_horaire.setTextColor(getContext().getResources().getColor(ouvert ? R.color.valid : R.color.invalid));
+
+            Button b = (Button) findViewById(R.id.mapdial_but);
+
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                    MapActivity ma = Deposite.ma;
+                    LatLong ll = new LatLong(deposite.getLatitude(), deposite.getLongitude());
+                    ma.path.add(ll);
+                    ma.drawPath(ma.path);
+                }
+            });
         }
     }
 }
